@@ -1,0 +1,29 @@
+== Inyección de dependencias en Quarkus
+
+Para la inyección de dependencias disponemos de CDI, el estandard de JEE.
+
+[Source]
+----
+<build>
+  <plugins>
+    <plugin>
+      <groupId>org.jboss.jandex</groupId>
+      <artifactId>jandex-maven-plugin</artifactId>
+      <version>1.2.2</version>
+      <executions>
+        <execution>
+          <id>make-index</id>
+          <goals>
+            <goal>jandex</goal>
+          </goals>
+        </execution>
+      </executions>
+    </plugin>
+  </plugins>
+</build>
+----
+
+@ApplicationScoped
+@RequestScoped
+
+

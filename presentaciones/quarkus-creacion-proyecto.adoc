@@ -1,0 +1,98 @@
+== Creación de un proyecto con Maven
+
+Para crear el proyecto podemos utilizar Maven. Luego podremos importarlo en nuestro IDE favorito.
+
+[Source]
+----
+mvn "io.quarkus:quarkus-maven-plugin:create" 
+  -DprojectGroupId="com.curso" 
+  -DprojectArtifactId="Ej01_Quarkus" 
+  -DprojectVersion="1.0-SNAPSHOT" 
+  -DclassName="Aplicacion" 
+  -Dpath="path_ejemplo"
+----
+
+No disponemos de un main para ejecutar el proyecto, para ello utilizaremos Maven. Primero generamos el artefacto
+
+NOTE: El equipo de Quarkus ha desarrollado plugins específicos para Maven.
+
+[Source]
+----
+mvn package
+----
+
+Y luego lanzamos el jar ejecutable
+
+[Source]
+----
+java -jar target/quarkus-app/quarkus-run.jar
+----
+
+También podemos ejecutar el proyecto en modo desarrollo, que facilita probar los cambios sin necesidad de reiniciar
+
+[Source]
+----
+mvn quarkus:dev
+----
+
+Con el modo de desarrollo veremos en la consola que la aplicación se recompila y reinicia con cada cambio que guardamos en el código fuente.
+
+image::quarkus-creacion-proyecto-1.png[]
+
+Otra funcionalidad del modo de desarrollo es que Quarkus publica un sitio web al que podemos acceder con http://localhost:8080/index.html. En el sitio podremos ver información relativa al proyecto como extensiones utilizadas o un resumen de los endpoints desarrollados
+
+image::quarkus-creacion-proyecto-2.png[]
+
+
+== Creación de un proyecto con Quarkus CLI
+
+Quarkus Command Line interface (CLI) es una herramienta que nos asiste en la tarea de crear y gestionar un proyecto Quarkus. 
+
+Para obtener la herramienta hemos de utilizar alguno de estos gestores de paquetes
+
+* JBang: Para cualquier SO
+* SDKMAN!: Linux y macOS
+* Homebrew: Linux y macOS
+* Chocolatey: Para Windows
+
+Por ejempo utilizaremos Chocolatey. Su instalación es sencilla y ha de hacerse desde una ventana de PowerShell con permisos de administrador. En ella ejecutamos el siguiente comando:
+
+[Source]
+----
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+----
+
+Una vez instalado descargamos Quarkus CLI
+
+[Source]
+----
+choco install quarkus
+----
+
+=== Uso de Quarkus CLI
+
+Se utiliza desde la línea de comandos y es una herramienta muy potente.
+
+Para ver la ayuda:
+
+[Source]
+----
+quarkus --help
+----
+
+Para crear una aplicación utilizamos el comando 'create'. Recibe varios parámetros que si no incuimos serán sustituidos por valores por defecto
+
+[Source]
+----
+quarkus create app <group-id>:<artifact-id>:<version>
+----
+
+image::quarkus-creacion-proyecto-8.png[]
+
+El proyecto cuenta ya con las extensiones básicas. Para ejecutarlo en modo desarrollo usaremos el comando 'dev':
+
+[Source]
+----
+quarkus dev
+----
+

@@ -1,0 +1,42 @@
+= Quarkus
+ifdef::autor[]
+{autor}
+endif::[]
+v2.0.0 2020-11-15
+:sourcedir: ../workspace
+:imagesdir: ./images
+:title-page-background-image: image:logo.png[position=top]
+ifeval::[{pronoide} == true]
+:page-background-image: image:pronoide-logo.png[]
+endif::[]
+ifeval::[{profesor} == true]
+:page-background-image: image:pronoide-logo-fyeo.png[]
+endif::[]
+:navigation:
+:split:
+:doctype: book
+:menu:
+:goto:
+:status:
+:source-highlighter: coderay
+:sectnums:
+:toc:
+:toc-title: Contenidos
+:toclevels: 3
+:sectnumlevels: 5
+:chapter-label: Capítulo
+:appendix-caption: Apéndice
+:icons: font
+
+include::quarkus-creacion-proyecto.adoc[]
+
+<<<
+
+include::quarkus-extensiones.adoc[]
+
+<<<
+
+include::quarkus-rest.adoc[]
+
+<<<
+

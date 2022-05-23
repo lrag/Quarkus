@@ -1,0 +1,53 @@
+
+== Extensiones
+
+Un proyecto Quarkus cuenta con una serie de extensiones que en esencia son las librerías que se van a utilizar.
+
+=== Maven
+
+Para listar las extensiones disponibles (no las incuidas en el proyecto) utilizamos el siguiente comando Maven desde el directorio del proyecto
+
+[Source]
+----
+mvn quarkus:list-extensions
+----
+
+Para añadir una extensión también lo haremos con un comando Maven
+
+[Source]
+----
+mvn quarkus:add-extension -Dextensions="groupId:artifactId"
+----
+
+=== Quarkus CLI
+
+Si estamos utilizando la herramienta (recomendado) los comandos para trabajar con las extensiones son:
+
+Listar
+
+[Source]
+----
+quarkus ext ls
+----
+
+Es mucho mejor opción que con Maven, puesto que únicamente lista las extensiones añadidas al proyecto
+
+image::quarkus-creacion-proyecto-9.png[]
+
+Para añadir una extensión:
+
+[Source]
+----
+quarkus ext add groupId:artifactId
+----
+
+Para eliminar una extensión
+
+[Source]
+----
+quarkus ext rm groupId:artifactId
+----
+
+NOTE: No debemos olvidar que en cualquier momento podemos modificar nosotros las dependencias del proyecto en el fichero POM.xml 
+
+

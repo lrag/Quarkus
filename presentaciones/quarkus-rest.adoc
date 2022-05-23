@@ -1,0 +1,22 @@
+== Servicios Rest
+
+En Quarkus tenemos soporte implícito para apis Rest con JAX-RS, el estandard de JEE. La implementación utilizada es RESTEasy Reactive.
+
+=== Añadiendo soporte para JSON
+
+Necesitamos la siguiente extensión para que nuestro servicio utilice Json
+
+[Source]
+----	
+mvnw quarkus:add-extension -Dextensions="quarkus-resteasy-reactive-jackson"
+----
+
+
+Con JAX-RS programaremos endpoints anotados.
+
+
+
+mvnw quarkus:add-extension -Dextensions="hibernate-validator"
+
+
+

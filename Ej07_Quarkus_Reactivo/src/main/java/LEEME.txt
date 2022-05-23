@@ -1,0 +1,7 @@
+Extensiones añadidas:
+
+quarkus ext add quarkus-resteasy-reactive-jackson
+quarkus ext add hibernate-validator
+
+quarkus ext add quarkus-hibernate-reactive-panache
+quarkus ext add quarkus-reactive-mysql-client

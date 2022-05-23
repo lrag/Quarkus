@@ -1,0 +1,4 @@
+Extensiones añadidas:
+
+quarkus ext add quarkus-resteasy-reactive-jackson
+quarkus ext add hibernate-validator

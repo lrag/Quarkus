@@ -1,0 +1,40 @@
+package com.curso.mutiny_3_concurrencia;
+
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardWatchEventKinds;
+import java.nio.file.WatchEvent;
+import java.nio.file.WatchKey;
+import java.nio.file.WatchService;
+
+public class DirectoryWatcherEjemplo {
+
+    public static void main(String[] args) throws IOException, InterruptedException {
+        WatchService watchService
+          = FileSystems.getDefault().newWatchService();
+
+        Path path = Paths.get("");
+
+        path.register(
+	           watchService, 
+	           StandardWatchEventKinds.ENTRY_CREATE, 
+	           StandardWatchEventKinds.ENTRY_DELETE, 
+	           StandardWatchEventKinds.ENTRY_MODIFY
+           );
+
+        WatchKey key;
+        while ((key = watchService.take()) != null) {
+        	System.out.println("hola");
+            for (WatchEvent<?> event : key.pollEvents()) {
+                System.out.println(
+	                  "Event kind:" + event.kind() 
+	                  + ". File affected: " + event.context() 
+	                  + "."
+                  );
+            }
+            key.reset();
+        }
+    }
+}
