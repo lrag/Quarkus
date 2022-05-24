@@ -15,6 +15,7 @@ import com.curso.CDI._02_CicloDeVida.BeanCicloDeVida;
 import com.curso.endpoint.dto.ErrorEndpoint;
 import com.curso.endpoint.dto.PeliculaDto;
 
+//El ámbito del endpoint es Application
 @Path("/CDI")
 public class EndpointCicloDeVida {
 

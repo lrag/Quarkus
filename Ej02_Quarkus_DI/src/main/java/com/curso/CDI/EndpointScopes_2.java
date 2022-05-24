@@ -51,7 +51,7 @@ public class EndpointScopes_2 {
 	public String request() {
 		System.out.println("=============================");
 		System.out.println("Hola. Soy:"+this);
-		return beanRequest.saludar();
+		return beanRequest.saludar()+":"+beanRequest.saludar();
 	}
 	
 	@GET

@@ -12,3 +12,5 @@ public class ProxyMensajeriaRabbitMQ implements ProxyMensajeria{
 	}
 
 }
+
+

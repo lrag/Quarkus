@@ -22,6 +22,8 @@ public class EndpointNamed {
 	@Inject
 	ProxyMensajeriaRabbitMQ proxyRabbitMQ_1;
 
+	//Respetando la L del SOLID, que es mejor:
+	
 	@Named("Kafka")
 	ProxyMensajeria proxyKafka_2;
 	@Named("RabbitMQ")

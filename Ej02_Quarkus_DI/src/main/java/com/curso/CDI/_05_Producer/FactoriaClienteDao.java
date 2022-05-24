@@ -1,6 +1,6 @@
 package com.curso.CDI._05_Producer;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
@@ -15,7 +15,7 @@ public class FactoriaClienteDao {
 	String bbdd;
 	
 	@Produces
-	@ApplicationScoped
+	@RequestScoped
 	public ClienteDao getClienteDao() {
 		ClienteDao clienteDao = null;
 		switch(bbdd) {

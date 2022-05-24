@@ -14,6 +14,7 @@ import com.curso.CDI._01_Scopes.BeanSingleton;
 import com.curso.endpoint.dto.ErrorEndpoint;
 import com.curso.endpoint.dto.PeliculaDto;
 
+//Los endpoint tienen por defecto ApplicationScoped 
 @Path("/scopes1")
 public class EndpointScopes_1 {
 
@@ -51,7 +52,7 @@ public class EndpointScopes_1 {
 	public String request() {
 		System.out.println("=============================");
 		System.out.println("Hola. Soy:"+this);
-		return beanRequest.saludar();
+		return beanRequest.saludar()+":"+beanRequest.saludar();
 	}
 	
 	@GET

@@ -8,7 +8,7 @@ public class EmisorMensajesSMS implements EmisorMensajes {
 
 	@Override
 	public void enviar(String destinatario, String mensaje) {
-		System.out.println("Enviando PALOMA MENSAJERA '"+mensaje+"' a "+destinatario);		
+		System.out.println("Enviando SMS '"+mensaje+"' a "+destinatario);		
 	}
 
 }

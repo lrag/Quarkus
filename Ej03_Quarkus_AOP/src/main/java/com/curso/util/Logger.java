@@ -17,7 +17,7 @@ public class Logger {
 		System.out.println("Instanciando Logger");
 		try {
 			System.out.println("NombreFichero:"+nombreFichero);
-			FileWriter fw = new FileWriter(nombreFichero, StandardCharsets.UTF_8);
+			FileWriter fw = new FileWriter(nombreFichero, StandardCharsets.UTF_8, true);
 			bw = new BufferedWriter(fw);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -46,5 +46,5 @@ public class Logger {
 			e.printStackTrace();
 		}
 	}
-	
+
 }

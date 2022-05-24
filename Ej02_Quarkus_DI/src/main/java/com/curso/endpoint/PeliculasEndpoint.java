@@ -11,6 +11,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -44,7 +45,7 @@ public class PeliculasEndpoint {
 	@GET
 	@Path("/{idPelicula}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response buscar(Integer idPelicula) {
+	public Response buscar(@PathParam("idPelicula") Integer idPelicula) {
 		return peliculaRepo
 			.buscar(idPelicula)
 			.map(p -> Response.ok(new PeliculaDto(p)).build())
@@ -71,7 +72,7 @@ public class PeliculasEndpoint {
 	@Path("/{idPelicula}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response modificar(@Valid PeliculaDto peliculaDto, Integer idPelicula) {
+	public Response modificar(@Valid PeliculaDto peliculaDto, @PathParam("idPelicula") Integer idPelicula) {
 		peliculaDto.setId(idPelicula);
 		Pelicula peliculaInsertada = servicioPeliculas.modificar(peliculaDto.asPelicula());
 		return Response
@@ -83,7 +84,7 @@ public class PeliculasEndpoint {
 	@DELETE
 	@Path("/{idPelicula}")
 	@Produces(MediaType.APPLICATION_JSON)	
-	public Response borrar(Integer idPelicula) {
+	public Response borrar(@PathParam("idPelicula") Integer idPelicula) {
 		boolean eliminado = servicioPeliculas.borrar(idPelicula);
 		if(eliminado) {
 			return Response

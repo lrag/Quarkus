@@ -29,6 +29,8 @@ public class LogInterceptor {
 		String entradaLog = LocalDateTime.now()+"-Inicio de la llamada al método "+metodo.getName()+" de "+target.getClass();
 		System.out.println(entradaLog);
 		logger.escribir(entradaLog);
+		
+		//Nos encargamos aqui de que el target reciba la llamada 
 		Object retorno = iCtx.proceed();
 		
 		entradaLog = LocalDateTime.now()+"-Fin de la llamada al método "+metodo.getName()+" de "+target.getClass();

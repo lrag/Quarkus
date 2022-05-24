@@ -31,6 +31,7 @@ class OyenteInicio {
 		
 		System.out.println("=========================================");
 		System.out.println("EVENTO INICIALIZACION");
+
 		/*
 		Cliente cliente = new Cliente("Bartolo");
 		gestorClientes.insertar(cliente);
@@ -39,8 +40,7 @@ class OyenteInicio {
 		Empleado empleado = new Empleado("Bartola");
 		gestorEmpleados.insertar(empleado);
 		gestorEmpleados.borrar(empleado);
-		*/
-		
+		*/		
 	}
 	
 	void shutDown(@Observes ShutdownEvent event) {

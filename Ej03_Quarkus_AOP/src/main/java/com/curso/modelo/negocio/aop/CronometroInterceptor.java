@@ -13,6 +13,7 @@ import com.curso.util.Logger;
 
 @ICronometro
 @Interceptor
+//ApplicationScoped
 public class CronometroInterceptor {
 
 	@Inject
@@ -20,7 +21,7 @@ public class CronometroInterceptor {
 	Logger logger;
 	
 	@AroundInvoke
-	public Object log(InvocationContext iCtx) throws Exception {
+	public Object cronometrar(InvocationContext iCtx) throws Exception {
 		
 		Method metodo = iCtx.getMethod();
 		Object target = iCtx.getTarget();

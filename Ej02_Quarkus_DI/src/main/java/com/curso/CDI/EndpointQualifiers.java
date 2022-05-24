@@ -9,7 +9,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.curso.CDI._03_Qualifier.EmisorMensajes;
-import com.curso.CDI._03_Qualifier.EmisorMensajesSMS;
 import com.curso.CDI._03_Qualifier.QEmisorMensajesCorreoE;
 import com.curso.CDI._03_Qualifier.QEmisorMensajesPalomaMensajera;
 import com.curso.CDI._03_Qualifier.QEmisorMensajesSMS;
@@ -17,13 +16,29 @@ import com.curso.CDI._03_Qualifier.QEmisorMensajesSMS;
 @Path("/qualifiers")
 public class EndpointQualifiers {
 
-	//@Inject 
+	/*
+	@Inject 
 	@QEmisorMensajesSMS     
 	EmisorMensajesSMS emisorSMS; 
+	
+	//Si hay un qualifier podemos ahorrarnos el @Inject
+	@QEmisorMensajesCorreoE 
+	EmisorMensajesCorreoE emisorCorreoE; 
+	
+	@QEmisorMensajesPalomaMensajera 
+	EmisorMensajesPalomaMensajera emisorPalomaMensajera; 
+	*/
+
+	//Si utillizamos un qualifier no es necesario indicar el tipo concreto y asi
+	//respetamos la L de los principios SOLID
+	@QEmisorMensajesSMS     
+	EmisorMensajes emisorSMS; 
+	
 	@QEmisorMensajesCorreoE 
 	EmisorMensajes emisorCorreoE; 
+	
 	@QEmisorMensajesPalomaMensajera 
-	EmisorMensajes emisorPalomaMensajera; 
+	EmisorMensajes emisorPalomaMensajera;
 	
 	public EndpointQualifiers() {
 		super();

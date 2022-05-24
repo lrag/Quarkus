@@ -10,7 +10,7 @@ import io.quarkus.runtime.Quarkus;
 import io.quarkus.runtime.QuarkusApplication;
 import io.quarkus.runtime.annotations.QuarkusMain;
 
-//@QuarkusMain  
+@QuarkusMain  
 public class Main {
     
     public static void main(String... args) {
@@ -19,7 +19,7 @@ public class Main {
     	System.out.println("///////////////////////////////////////////");
         Quarkus.run(MyApp.class, args);
     }
-
+    
     public static class MyApp implements QuarkusApplication {
 
     	@Inject GestorClientes gestorClientes;
@@ -28,7 +28,7 @@ public class Main {
         @Override
         public int run(String... args) throws Exception {
 
-    		Cliente cliente = new Cliente("Bartolo");
+        	Cliente cliente = new Cliente("Bartolo");
     		gestorClientes.insertar(cliente);
     		gestorClientes.borrar(cliente);
     		
@@ -36,9 +36,8 @@ public class Main {
     		gestorEmpleados.insertar(empleado);
     		gestorEmpleados.borrar(empleado);               
             
-            //Quarkus.waitForExit();
+            Quarkus.waitForExit();
             return 0;
-        }
-        
+        }        
     }    
 }
