@@ -10,7 +10,7 @@ public class Pelicula {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id; //LONG
+	private Long id; // LONG
 	private String titulo;
 	private String director;
 	private String genero;
@@ -18,6 +18,7 @@ public class Pelicula {
 
 	public Pelicula() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	public Pelicula(Long id, String titulo, String director, String genero, Integer year) {
@@ -74,5 +75,5 @@ public class Pelicula {
 		return "Pelicula [id=" + id + ", titulo=" + titulo + ", director=" + director + ", genero=" + genero + ", year="
 				+ year + "]";
 	}
-	
+
 }

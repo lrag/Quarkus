@@ -1,13 +1,9 @@
 package com.curso.mutiny_3_concurrencia;
-import java.util.List;
-
 import javax.inject.Inject;
 
 import io.quarkus.runtime.Quarkus;
 import io.quarkus.runtime.QuarkusApplication;
 import io.smallrye.mutiny.Multi;
-import io.smallrye.mutiny.infrastructure.Infrastructure;
-import io.smallrye.mutiny.subscription.Cancellable;
 
 //@QuarkusMain  
 public class Main {

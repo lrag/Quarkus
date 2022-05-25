@@ -3,16 +3,18 @@ package com.curso.modelo.repositorio;
 import java.util.List;
 import java.util.Optional;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import com.curso.modelo.entidad.Pelicula;
 
-@Singleton
+@ApplicationScoped
 public class PeliculaRepositorioImpl implements PeliculaRepositorio{
 	
-	@Inject
+	@PersistenceContext
 	protected EntityManager em;
 	
 	@Override
@@ -44,6 +46,7 @@ public class PeliculaRepositorioImpl implements PeliculaRepositorio{
 	
 	@Override
 	public List<Pelicula> listar() {
+		System.out.println(em);
 		return em.createQuery("select p from Pelicula p").getResultList();
 	}	
 	

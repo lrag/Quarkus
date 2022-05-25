@@ -22,7 +22,7 @@ public class PeliculaRepository {
 	@Inject
 	private DataSource dataSource;
 	
-	public Multi<Pelicula> findAll_Reactivo(){		
+	public Multi<Pelicula> findAll(){		
 		return Multi.createFrom().emitter(
 			(emitter) -> {
 				try (Connection cx = dataSource.getConnection()) {

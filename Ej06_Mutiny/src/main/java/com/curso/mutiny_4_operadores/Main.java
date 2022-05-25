@@ -29,7 +29,6 @@ public class Main {
     	
         @Override
         public int run(String... args) throws Exception {
-        	        	
 
     		////////////
     		// CONCAT //
@@ -44,6 +43,7 @@ public class Main {
     			.with(n -> System.out.println(Thread.currentThread().getName()+":"+n));
     		*/
         	
+        	/*
     		System.out.println("======================================");
     		//Tambien podemos concatenar varios monos para obtener un flujo
     		Uni.join()
@@ -54,15 +54,19 @@ public class Main {
     			)
     			.andCollectFailures()
     			.subscribe().with(peliculas -> peliculas.forEach(p -> System.out.println(p)));
+    		*/
     		
+        	/*
     		System.out.println("======================================");
     		peliculaRepo
     			.findAllById(1,2,3)
     			.subscribe().with(peliculas -> peliculas.forEach(p -> System.out.println(p)));
-    		
+    		*/
+        	
     		///////////
     		// MERGE //
     		///////////
+        	/*
     		System.out.println("======================================");
     		Multi
 				.createBy()
@@ -77,7 +81,8 @@ public class Main {
     		Thread.sleep(10_000);
 
     		System.exit(0);
-    		
+    		*/
+        	
     		/////////
     		// ZIP //
     		/////////
@@ -100,56 +105,56 @@ public class Main {
     		// FILTER //
     		////////////
 
-    		/*
+        	/*
     		System.out.println("======================================");		
     		peliculaRepo
     			.findAll()
     			.filter(p -> p.getGenero().equals("Ci-fi"))
     			//Se pueden concatenar más filtros
     			.filter(p -> p.getTitulo().length()>4)
-    			.subscribe(p -> System.out.println(p));	
-    		
-    	
-    		System.exit(0);
-    		*/
+    			.subscribe().with(p -> System.out.println(p));	
     		
     		/////////
     		// MAP //
     		/////////
-    		/*
-    		System.out.println("======================================");
-    		flujos
-    			.flujoPalabras()
-    			.subscribe( palabra -> System.out.println(palabra));
     		
     		System.out.println("======================================");
-    		flujos
+    		multis
+    			.flujoPalabras()
+    			.subscribe().with(palabra -> System.out.println(palabra));
+    		
+    		
+    		
+    		System.out.println("======================================");
+    		multis
     			.flujoPalabras()
     			//Llega un string, sale otro
+    			//.onItem().transform(p -> p.toUpperCase())
     			.map( p -> p.toUpperCase() )
-    			.subscribe(palabra -> System.out.println(palabra));
+    			.subscribe().with(palabra -> System.out.println(palabra));
+
 
     		System.out.println("======================================");
-    		flujos
+    		multis
     			.flujoPalabras()
     			//Llega la palabra, sale su longitud...
     			.map( p -> p.length() )
-    			.subscribe(palabra -> System.out.println(palabra));
-    		*/
-    		/*
+    			.subscribe().with(longitud -> System.out.println(longitud));
+
+
     		System.out.println("======================================");
-    		flujos
+    		multis
     			.flujoPalabras() //De aqui salen cadenas de texto
     			.map( palabra -> palabra.toUpperCase() ) //De aqui salen pasadas a mayusculas
     			.map( palabra -> palabra.length()+"-"+palabra) //De aqui salen con longitud por delante
-    			.subscribe( palabra -> System.out.println(palabra));		
+    			.subscribe().with( palabra -> System.out.println(palabra));		
     		
     		System.out.println("======================================");
     		//Lo mismo pero sin 'map'
-    		flujos
+    		multis
     			.flujoPalabras()
-    			.subscribe( palabra -> System.out.println(palabra.length()+":"+palabra.toUpperCase()));		
-    		*/
+    			.subscribe().with( palabra -> System.out.println(palabra.length()+":"+palabra.toUpperCase()));		
+			*/
 
     		//////////////
     		// FLAT MAP //
@@ -164,110 +169,76 @@ public class Main {
     		//Además, como nos subscribimos a los flujos/monos no podemos devolvelos
     		//Y tampoco podemos devolver el resultado si el código está en un método
     		//Y para más INRI no podremos avisar de que ha habido un fallo
-    		/*
-    		flujos
+    		
+        	/*
+    		multis
     			.leerFichero("imagen.jpg")
-    			.subscribeOn(Schedulers.boundedElastic())
-    			.subscribe( contenido -> {
+    			.runSubscriptionOn(Infrastructure.getDefaultWorkerPool())
+    			.subscribe().with( contenido -> {
+    				System.out.println();
     				System.out.println("Contenido:"+contenido);
-    				flujos
+    				multis
     					.convertirImagen(contenido)
-    					.subscribeOn(Schedulers.boundedElastic())
-    					.subscribe(nuevoFormato -> {
+    					.runSubscriptionOn(Infrastructure.getDefaultWorkerPool())
+    					.subscribe().with(nuevoFormato -> {
     						System.out.println("Nuevo formato:"+nuevoFormato);
-    						flujos.escribirFichero(nuevoFormato, contenido)
-    							.subscribeOn(Schedulers.boundedElastic())
-    							.subscribe( c -> {
+    						multis.escribirFichero("imagen2.png", nuevoFormato)
+    							.runSubscriptionOn(Infrastructure.getDefaultWorkerPool())
+    							.subscribe().with( c -> {
     								System.out.println("Nueva imagen creada.");
     							});
     					});
     			});	
-    		Thread.sleep(10_000);
-    		 */
     		
-    		/*
-    		flujos
-    			.leerFichero("imagen.jgp") //De aqui sale un mono<string>
+    		
+    		Thread.sleep(10_000);
+    		*/
+    		
+        	/*
+    		multis
+    			.leerFichero("imagen.jgp") //De aqui sale un Uni<string>
     			.flatMap( contenido -> {
     				System.out.println("Contenido:"+contenido);
-    				return flujos.convertirImagen(contenido); //Esto devuelve un Mono<String> 
+    				return multis.convertirImagen(contenido); //Esto devuelve un Uni<String> 
     			})
     			.flatMap( nuevoFormato -> {
     				System.out.println("Nuevo formato:"+nuevoFormato);
-    				return flujos.escribirFichero("imagenConvertida.jpg", nuevoFormato); //De aqui sale otro Mono!
+    				return multis.escribirFichero("imagenConvertida.jpg", nuevoFormato); //De aqui sale otro Uni!
     			})
-    			.doOnSuccess( x -> System.out.println("IMAGEN CONVERTIDA") ) //Como el ultimo mono es Mono<Void> 'x' es null
-    			.subscribe();	
-    		*/
-
+    			.subscribe().with(x -> System.out.println("IMAGEN CONVERTIDA"));	
+			*/
+			
     		//Lo mismo pero con un hilo para cada tarea que implique I/O 
-    		/*
-    		flujos
+    		System.out.println();
+        	multis
     			.leerFichero("imagen.jgp") //De aqui sale un mono
-    			.subscribeOn(Schedulers.boundedElastic())
+    			.runSubscriptionOn(Infrastructure.getDefaultWorkerPool())
     			.flatMap( contenido -> {
     				System.out.println(Thread.currentThread().getName()+"-Contenido:"+contenido);
-    				return flujos
-    					.convertirImagen(contenido)
-    					.subscribeOn(Schedulers.boundedElastic()); //Esto devuelve un Mono<String> 
+    				return multis.convertirImagen(contenido)
+    						.runSubscriptionOn(Infrastructure.getDefaultWorkerPool());
     			})
     			.flatMap( nuevoFormato -> {
     				System.out.println(Thread.currentThread().getName()+"-Nuevo formato:"+nuevoFormato);
-    				return flujos
+    				return multis
     					.escribirFichero("", "")
-    					.subscribeOn(Schedulers.boundedElastic());
+    					.runSubscriptionOn(Infrastructure.getDefaultWorkerPool());
     			})
-    			.doOnSuccess( x-> System.out.println(Thread.currentThread().getName()+"-IMAGEN CONVERTIDA") )
-    			.subscribe();
+    			.subscribe().with( x-> System.out.println(Thread.currentThread().getName()+"-IMAGEN CONVERTIDA"));
     		
     		Thread.sleep(10_000);
-    		*/
     		
-    		///////////////////
-    		// FLAT MAP MANY //
-    		///////////////////	
-        	/*
-    		System.out.println("======================================");		
-    		
-    		Integer idPelicula = 3;
-    		peliculaRepo
-    			.findById(idPelicula) //De aqui sale un Mono en patines
-    			.flatMap( p -> { //Aqui llega la pelicula
-    				Mono<List<Premio>> monoPremios = premioRepo.findAllByIdPelicula(p.getId()).collectList();
-    				Mono<Pelicula> peliculaMono = Mono.just(p);
-    				return Mono.zip(peliculaMono, monoPremios);
-    				//return Mono.just(p).zipWith(premioRepo.findAllByIdPelicula(p.getId()).collectList()); 
-    			})
-    			.map( tupla -> {
-    				Pelicula p = tupla.getT1();
-    				p.setPremios(tupla.getT2());
-    				return p;
-    			})
-    			.subscribe(pelicula -> System.out.println(pelicula));			
-        	*/
     		
         	/////////////
     		// COLLECT //
     		/////////////
-    		/*
-    		System.out.println("======================================");		
-    		flujos
-    			.flujoPalabras()
-    			.collect(Collectors.toList())
-    			.subscribe(lista -> System.out.println(lista));
-    		*/
-    		/*
-    		peliculaRepo
-    			.findAll()
-    			.collect(Collectors.groupingBy( pelicula -> pelicula.getGenero()))
-    			.subscribe( mapa -> {
-    				mapa.forEach( (clave,valor) -> System.out.println(clave+":"+valor) );
-    			});*/
     		
-    		/*
-    		.defaultIfEmpty(valor por defecto);
-    		.switchIfEmpty(Mono.error(new Exception("EL AÑO NO PUEDE SER NEGATIVO!")));
-    		*/    		
+    		System.out.println("======================================");		
+    		multis
+    			.flujoPalabras()
+    			.collect().asList()
+    			.subscribe().with(lista -> System.out.println(lista));
+    		 		
     		
     		System.out.println("FIN del hilo main");	
         	        	

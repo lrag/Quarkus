@@ -8,5 +8,4 @@ import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 @ApplicationScoped
 public class PeliculaRepositorio implements PanacheRepository<Pelicula>{
-
 }

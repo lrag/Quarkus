@@ -1,4 +1,6 @@
 package com.curso;
+import java.util.concurrent.Callable;
+
 import javax.inject.Inject;
 
 import com.curso.modelo.entidad.Pelicula;
@@ -7,8 +9,9 @@ import com.curso.modelo.repositorio.PeliculaRepositorio;
 import io.quarkus.narayana.jta.QuarkusTransaction;
 import io.quarkus.runtime.Quarkus;
 import io.quarkus.runtime.QuarkusApplication;
+import io.quarkus.runtime.annotations.QuarkusMain;
 
-//@QuarkusMain  
+@QuarkusMain  
 public class Main {
     
     public static void main(String... args) {
@@ -27,10 +30,10 @@ public class Main {
 
         	//QuarkusTransaction.begin();
         	
-        	
+        	System.out.println("ANTES");
+       	
         	QuarkusTransaction.run(() -> {
-	        	peliculaRepo.deleteAll();
-	        	
+	        	peliculaRepo.deleteAll();	        	
 	    		peliculaRepo.persist(new Pelicula(null,"2001","Stanley Kubrik","Ci-fi",2000));
 	    		peliculaRepo.persist(new Pelicula(null,"Alien","Ridley Scott","Ci-fi",2000));
 	    		peliculaRepo.persist(new Pelicula(null,"Die Hard","John McTiernan","Acción",2000));
@@ -40,13 +43,13 @@ public class Main {
 	    		peliculaRepo.persist(new Pelicula(null,"Depredador","John McTiernan","Acción",2000));
 	    		peliculaRepo.persist(new Pelicula(null,"rio Bravo","Howard Hawks","Western",2000));
         	});
+        	System.out.println("DESPUES");
         	
         	
         	//QuarkusTransaction.commit();
+        	//QuarkusTransaction.rollback();
         	
-        	System.exit(42);
-        	
-        	//Quarkus.waitForExit();
+        	Quarkus.waitForExit();
             return 0;
         }
         
