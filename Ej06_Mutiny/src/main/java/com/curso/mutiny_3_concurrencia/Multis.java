@@ -45,18 +45,18 @@ public class Multis {
 	public Multi<List<String>> monitorizarDirectorio() throws IOException{				
 		return Multi.createFrom().emitter(
 			emitter -> {				
-				while(true) {
-					try {
-						WatchKey key = null;
-						final Path path = Paths.get("directorio_monitorizado");
-						final WatchService watchService = FileSystems.getDefault().newWatchService();
-						path.register(
-								watchService, 
-								StandardWatchEventKinds.ENTRY_CREATE, 
-								StandardWatchEventKinds.ENTRY_DELETE, 
-								StandardWatchEventKinds.ENTRY_MODIFY
-							);		
-	
+				try {
+					WatchKey key = null;
+					final Path path = Paths.get("directorio_monitorizado");
+					final WatchService watchService = FileSystems.getDefault().newWatchService();
+					path.register(
+							watchService, 
+							StandardWatchEventKinds.ENTRY_CREATE, 
+							StandardWatchEventKinds.ENTRY_DELETE, 
+							StandardWatchEventKinds.ENTRY_MODIFY
+						);		
+
+					while(true) {
 						System.out.println("Esperando a una accion en el directorio para publicar el siguiente mensaje...");
 						key = watchService.take();
 						List<String> mensaje = new ArrayList<>();
@@ -65,11 +65,11 @@ public class Multis {
 							mensaje.add(event.kind()+":"+event.context());
 						}
 						emitter.emit(mensaje);
-					} catch (InterruptedException e) {
-						System.out.println(e.getMessage());
-					} catch (IOException e) {
-						System.out.println(e.getMessage());
 					}
+				} catch (InterruptedException e) {
+					System.out.println(e.getMessage());
+				} catch (IOException e) {
+					System.out.println(e.getMessage());
 				}
 			} 
 		);

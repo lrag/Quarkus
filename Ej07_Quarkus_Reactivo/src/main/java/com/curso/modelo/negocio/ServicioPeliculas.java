@@ -17,7 +17,6 @@ public class ServicioPeliculas {
 	PeliculaRepositorio peliculaRepo;
 	
 	public Uni<Pelicula> insertar(Pelicula pelicula) {
-		//LN...
 		return Panache.withTransaction(
 				() -> peliculaRepo.persist(pelicula)
 			);

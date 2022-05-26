@@ -30,31 +30,47 @@ public class Main {
         @Override
         public int run(String... args) throws Exception {
         	
+        	System.out.println();
+    		/*
+        	System.out.println("=====================================");
+    		System.out.println(Thread.currentThread().getName()+"-Antes de subscribirse");
+    		Multi<Long> multiFinito = multis.getNumerosAleatoriosFinito();
+    		multiFinito
+    			.subscribe()
+    			.with(numero -> {
+	    			System.out.println(Thread.currentThread().getName()+"-Consumidor:"+numero);
+	    		});
+    		System.out.println(Thread.currentThread().getName()+"-Despues de subscribirse");
+    		*/
+        	
         	/*
     		System.out.println("=====================================");
-    		Multi<Long> multiFinito = multis.getNumerosAleatorioFinito();
-    		multiFinito.subscribe().with(numero -> {
-    			System.out.println(Thread.currentThread().getName()+"-Consumidor:"+numero);
-    		});
-    		
-    		System.out.println("=====================================");
     		Multi<String> multiEstado = multis.multiConEstado();
-    		multiEstado.subscribe().with(mensaje -> System.out.println(mensaje));
-    		*/    		 
-    		 
+    		multiEstado
+    			.subscribe()
+    			.with(mensaje -> System.out.println(Thread.currentThread().getName()+"-Consumidor:"+mensaje));
+    		*/
+  		 
+    		/* 
     		System.out.println("=============================================");
     		List<Pelicula> peliculas = peliculaRepo.findAll();
     		for(Pelicula p: peliculas) {
     			System.out.println(p);
     		}
+        	Thread.sleep(1000);
+        	System.out.println("FIN");
+    		*/
     		
-    		Thread.sleep(1000);
-    		System.out.println("FIN");
+    		
 
     		System.out.println("=============================================");
-    		peliculaRepo.findAll_Reactivo().subscribe().with(p -> System.out.println(p));	
+    		peliculaRepo
+    			.findAll_Reactivo()
+    			.subscribe()
+    			.with(p -> System.out.println(p));	
     		
     		System.out.println("FIN del hilo main");
+        	
         	        	
     		System.exit(42);
         	return 42;

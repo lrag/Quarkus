@@ -5,7 +5,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.curso.modelo.repositorio.PeliculaRepositorio;
+
 import io.quarkus.hibernate.reactive.panache.PanacheEntityBase;
+import io.smallrye.mutiny.Multi;
+import io.smallrye.mutiny.Uni;
 
 @Entity
 public class Cliente extends PanacheEntityBase {
@@ -35,3 +39,4 @@ public class Cliente extends PanacheEntityBase {
 	}
 	
 }
+

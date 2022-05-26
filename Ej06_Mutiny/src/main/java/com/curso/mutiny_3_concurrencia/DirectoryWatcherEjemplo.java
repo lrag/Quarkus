@@ -15,7 +15,7 @@ public class DirectoryWatcherEjemplo {
         WatchService watchService
           = FileSystems.getDefault().newWatchService();
 
-        Path path = Paths.get("");
+        Path path = Paths.get("directorio_monitorizado");
 
         path.register(
 	           watchService, 
@@ -26,7 +26,6 @@ public class DirectoryWatcherEjemplo {
 
         WatchKey key;
         while ((key = watchService.take()) != null) {
-        	System.out.println("hola");
             for (WatchEvent<?> event : key.pollEvents()) {
                 System.out.println(
 	                  "Event kind:" + event.kind() 

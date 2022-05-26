@@ -1,5 +1,9 @@
 package com.curso.endpoint;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
@@ -12,16 +16,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.curso.endpoint.dto.ClienteDto;
+import org.jboss.resteasy.reactive.RestStreamElementType;
+
 import com.curso.endpoint.dto.ErrorEndpoint;
 import com.curso.endpoint.dto.MensajeEndpoint;
 import com.curso.endpoint.dto.PeliculaDto;
-import com.curso.modelo.entidad.Cliente;
-import com.curso.modelo.entidad.Pelicula;
 import com.curso.modelo.negocio.ServicioPeliculas;
 import com.curso.modelo.repositorio.PeliculaRepositorio;
 
-import io.quarkus.hibernate.reactive.panache.Panache;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 
@@ -33,20 +35,67 @@ public class PeliculasEndpoint {
 	
 	@Inject
 	ServicioPeliculas servicioPeliculas;
+
+	/////////////////////////////////////////
+	// Cuando estamos hablando de un MULTI //
+	// o de vários elementos               //
+	/////////////////////////////////////////
 	
+	//Cuanto tenemos varios elementos y nos importa un pito si el cliente es reactivo o no
+	//entonces hacemos esto:
+	//-Devolver un Uni<List>
+	//-Devolverlo como un JSON del tirón
+	@GET
+	@Path("/clienteNoReactivo")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Uni<List<PeliculaDto>> listar_para_clientes_no_reactivos(){
+		return peliculaRepo
+			.listAll() //de aqui sale un Uni<List<Pelicula>>
+			.map(peliculas -> {
+				return peliculas.stream().map(p -> new PeliculaDto(p)).collect(Collectors.toList());
+			}); //de aqui sale un Uni<List<PeliculaDto>>
+	}
+	
+	//Cuando tenemos varios elementos y nos interesa un cliente reactivo
+	//entonces hacemos esto:
+	//-devolver un Multi<T>
+	//-devolverlo como SERVER_SENT_EVENTS	
+	@GET
+	@Path("/clienteReactivo")
+    @Produces(MediaType.SERVER_SENT_EVENTS)
+	@RestStreamElementType(MediaType.APPLICATION_JSON)
+	public Multi<PeliculaDto> listar_para_clientes_reactivos(){
+		return peliculaRepo
+				.streamAll() //De aqui sale un Multi<Pelicula>
+				.map(p -> new PeliculaDto(p)); //Aqui llega una pelicula y sale un PeliculaDto
+	}
+	
+	/*
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Multi<PeliculaDto> listar(){
-		return peliculaRepo.streamAll().map(p -> new PeliculaDto(p));
+	public List<Pelicula> listar_desastroso_no_hacer_en_la_vida(){
+		//En este caso es otro el hilo que se subscribe (por que el multi es 'emit-on')
+		//pero entonces el hilo del event loop sale del método con una lista vacía
+		List<Pelicula> peliculas = new ArrayList<>();
+		peliculaRepo
+			.findAll()		
+			.stream()
+			.subscribe()
+			.with(p -> peliculas.add(p));
+		return peliculas;
+
+		//Esto está mal porque el hilo del event loop se queda ejecutando la query!!!!
+		return peliculaRepo.findAll().list().await().indefinitely();
 	}
+	*/
 	
 	@GET
 	@Path("/{idPelicula}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Uni<Response> buscar(Long idPelicula) {
 		return peliculaRepo
-			.findById(idPelicula)
-			.map(p -> {
+			.findById(idPelicula) //Uni<Pelicula>
+			.map(p -> { //Aqui llega una pelicula
 				if(p == null) {
 					return Response
 						.status(404)			
@@ -64,6 +113,7 @@ public class PeliculasEndpoint {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Uni<Response> insertar(@Valid PeliculaDto peliculaDto) {
+		System.out.println(Thread.currentThread().getName()+":ReliculasEndpoint.insertar)");
 		return servicioPeliculas
 			.insertar(peliculaDto.asPelicula())
 			.map(peliculaInsertada -> Response.status(201).entity(new PeliculaDto(peliculaInsertada)).build());

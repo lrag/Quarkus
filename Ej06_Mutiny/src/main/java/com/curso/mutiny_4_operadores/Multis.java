@@ -29,20 +29,17 @@ public class Multis {
 	}
 
 	public Multi<Integer> numerosImpares(){
-		return Multi.createFrom().generator(
-				//State supplier
-				() -> 1,
-				//Generator
-				(state,emitter) -> {					
-					emitter.emit(state);					
-					long fin = System.currentTimeMillis()+1000;
-					while(System.currentTimeMillis()<fin) {
+		return Multi.createFrom().emitter(
+				(emitter) -> {					
+					int contador = 1;
+					while(contador<13) {
+						emitter.emit(contador);					
+						long fin = System.currentTimeMillis()+1000;
+						while(System.currentTimeMillis()<fin) {
+						}
+						contador +=2;
 					}
-					state +=2;
-					if(state > 13) {
-						emitter.complete();
-					}					
-					return state;
+					emitter.complete();
 				}				
 			);
 	}	

@@ -11,6 +11,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -39,7 +40,7 @@ public class ClientesEndpoint {
 	@GET
 	@Path("/{idCliente}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response buscar(Integer idCliente) {
+	public Response buscar(@PathParam("idCliente") Integer idCliente) {
 		Cliente cliente = Cliente.findById(idCliente);
 		if(cliente==null) {
 			return Response
@@ -65,7 +66,7 @@ public class ClientesEndpoint {
 	@Path("/{idCliente}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response modificar(@Valid ClienteDto clienteDto, Integer idCliente) {
+	public Response modificar(@Valid ClienteDto clienteDto, @PathParam("idCliente") Integer idCliente) {
 		clienteDto.setId(idCliente);
 		Cliente clienteInsertada = servicioClientes.modificar(clienteDto.asCliente());
 		return Response
@@ -77,7 +78,7 @@ public class ClientesEndpoint {
 	@DELETE
 	@Path("/{idCliente}")
 	@Produces(MediaType.APPLICATION_JSON)	
-	public Response borrar(Integer idCliente) {
+	public Response borrar(@PathParam("idCliente")Integer idCliente) {
 		boolean eliminado = servicioClientes.borrar(idCliente);
 		if(eliminado) {
 			return Response

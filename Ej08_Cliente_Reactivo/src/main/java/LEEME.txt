@@ -1,0 +1,7 @@
+Extensiones añadidas:
+
+quarkus ext add quarkus-resteasy-reactive-jackson
+quarkus ext add rest-client-reactive-jackson
+quarkus ext add quarkus-rest-client-reactive
+
+

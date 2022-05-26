@@ -4,17 +4,18 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.enterprise.context.ApplicationScoped;
 
+import io.netty.util.internal.shaded.org.jctools.queues.MessagePassingQueue.Supplier;
 import io.smallrye.mutiny.Multi;
 
 @ApplicationScoped
 public class Multis {
 	
-	public Multi<Long> getNumerosAleatorioFinito(){
-		AtomicInteger contador = new AtomicInteger(0);		
+	public Multi<Long> getNumerosAleatoriosFinito(){
 		//El emitter recibe una única llamada y se encarga de generar todos los elementos
 		return Multi.createFrom().emitter(
-				emitter -> {					
-					while(contador.incrementAndGet() < 10) {
+				emitter -> {
+					int smith = 0;
+					while(smith < 10) {
 						System.out.println(Thread.currentThread().getName()+"-Generando número aleatorio...");
 						try {
 							Thread.sleep(500);
@@ -23,6 +24,7 @@ public class Multis {
 						}	
 						
 						emitter.emit(Math.round(Math.random()*10_000));
+						smith++;
 					}
 					System.out.println(Thread.currentThread().getName()+"-Complete");
 					emitter.complete();
@@ -37,7 +39,9 @@ public class Multis {
 			//Generator
 			(state, emitter) -> {
 
-				emitter.emit("Mensaje nº:"+state);
+				String mensaje = "Mensaje nº:"+state;
+				System.out.println(Thread.currentThread().getName()+"-Generator:"+mensaje);
+				emitter.emit(mensaje);
 				state++;
 				
 				try {
@@ -55,3 +59,6 @@ public class Multis {
 	}	
 	
 }
+
+
+

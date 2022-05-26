@@ -12,6 +12,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.jboss.resteasy.reactive.RestStreamElementType;
+
 import com.curso.endpoint.dto.ClienteDto;
 import com.curso.endpoint.dto.ErrorEndpoint;
 import com.curso.endpoint.dto.MensajeEndpoint;
@@ -28,7 +30,9 @@ public class ClientesEndpoint {
 	ServicioClientes servicioClientes;
 	
 	@GET
-	@Produces(MediaType.APPLICATION_JSON)
+	//@Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.SERVER_SENT_EVENTS)
+	@RestStreamElementType(MediaType.APPLICATION_JSON)	
 	public Multi<ClienteDto> listar(){
 		return Cliente
 			.streamAll()

@@ -10,6 +10,7 @@ import io.smallrye.mutiny.Multi;
 @ApplicationScoped
 public class Multis {
 
+	//Imperativo
 	public List<Integer> getNumeros(){
 		return Arrays.asList(1,2,3,4,5,6,7,8,9,10);
 	}

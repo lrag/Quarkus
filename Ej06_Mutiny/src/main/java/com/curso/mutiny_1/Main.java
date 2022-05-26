@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import io.quarkus.runtime.Quarkus;
 import io.quarkus.runtime.QuarkusApplication;
 import io.smallrye.mutiny.Multi;
+import io.smallrye.mutiny.Uni;
 
 //@QuarkusMain  
 public class Main {
@@ -35,9 +36,10 @@ public class Main {
         	////////////
         	// MULTIS //
         	////////////
-        	
+        	System.out.println();
         	System.out.println("=================================");
         	List<Integer> listaNumeros = multis.getNumeros();
+        	//Aqui tenemos los números
         	listaNumeros.forEach(n -> System.out.println(n));
         	
         	System.out.println("=================================");
@@ -47,7 +49,7 @@ public class Main {
     		//Nos subscribimos a un multi para recibir los elementos
     		//Se proporciona un subscriptor, que recibirá los elementos que entrega el multi
     		//Es tarea del consumidor controlar el ritmo con el que procesan los elementos
-    		//Es tarea del flujo controlar el ritmo con el que se entregan los elementos
+    		//Es tarea del multi controlar el ritmo con el que se entregan los elementos
     		
     		//
     		//Proporcionando un consumidor definido en el momento de la subscripción:
@@ -67,13 +69,14 @@ public class Main {
     		System.out.println("=====================================");
     		//Ídem con expresión lambda
     		//Vemos que podemos volver a subscribirnos a un multi
-    		multiNumeros.subscribe().with( n -> System.out.println(Thread.currentThread().getName()+"-Lambda-"+n));
-    		//AQUI NO TENEMOS LAS PALABRAS
+    		multiNumeros
+    			.subscribe()
+    			.with( n -> System.out.println(Thread.currentThread().getName()+"-Lambda-"+n));
+    		//AQUI NO TENEMOS LOS NUMEROS
         	
     		System.out.println("=====================================");		
     		//Utilizando un consumidor definido como una bean CDI
     		multiNumeros.subscribe().with(consumidor);        	
-        	
     		
     		//////////
     		// UNIS //
@@ -92,13 +95,14 @@ public class Main {
     		System.out.println("=====================================");			
     		
     		//Podemos utilizar await en unis y nos devuelven el elemento emitido
-    		//Usar solo en caso de extrema necesidad		
-    		String saludo_2 = unis.saludarReactivo().await().indefinitely();
+    		//Usar solo en caso de extrema necesidad	
+    		//Si estamos utilizando await nos estamos cargando la reactividad
+    		Uni<String> uni = unis.saludarReactivo();
+    		String saludo_2 = uni.await().indefinitely();
     		System.out.println("Despues del wait: "+saludo_2);
 
     		System.out.println("FIN del hilo main");    		
     		
-    		System.exit(42);
         	return 42;
         }
         

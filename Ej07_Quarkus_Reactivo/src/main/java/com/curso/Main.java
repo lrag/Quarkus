@@ -23,6 +23,7 @@ public class Main {
     	
         @Override
         public int run(String... args) throws Exception {
+        	Quarkus.waitForExit();
         	return 0;
         }
         
